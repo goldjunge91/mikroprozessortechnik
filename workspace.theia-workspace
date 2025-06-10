@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "path": ""
+    }
+  ],
+  "settings": {
+    "CCS.debug.serial.options.localEcho": true,
+    "CCS.debug.serial.options.sendCharactersOnEnter": true,
+    "CCS.debug.breakpoint.showCore": false
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "ccs-project-0-win",
+        "type": "ccs-debug",
+        "request": "launch",
+        "projectInfo": {
+          "name": "ccs-project-0-win",
+          "resourceId": "/ccs-project-0-win"
+        }
+      }
+    ]
+  }
+}

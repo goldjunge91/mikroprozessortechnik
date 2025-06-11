@@ -1,6 +1,13 @@
-    // =======================================================================
-    // ===                 TEMPORÄRER CODE ZUM TESTEN                      ===
-    // =======================================================================
+// =======================================================================
+// ===                 TEMPORÄRER CODE ZUM TESTEN                      ===
+// =======================================================================
+#include "aufgaben.h"
+#include "inc/tm4c1294ncpdt.h" 			// Header of the controller type
+#include <stdint.h> 				// Header w. types for the register ..
+
+#define BPS 115200
+static int wait_counter_debug = 0;
+
 void config_port_debugging(void) {
     // Clock für Port P (UART), Port N (echte LEDs), Port F (echte LEDs) und Port M (Simulation)
     SYSCTL_RCGCGPIO_R |= (1 << 13); // Takt für Port P (UART)
@@ -33,9 +40,8 @@ void config_port_debugging(void) {
 }
 
 void config_uart_debugging(void) {
-    #define BPS 115200 // Aufgabe 4 nutzt oft eine höhere Baudrate
     SYSCTL_RCGCUART_R |= 0x40;      // switch on clock for UART6
-    wait_counter_4++;                           // delay for stable clock
+    wait_counter_debug++; 
     UART6_CTL_R &= ~0x01;           // disable UART6 for config
     UART6_IBRD_R = 8;               // set DIVINT of BRD floor(16 MHz / (16 * 115200 bps)) = 8
     UART6_FBRD_R = 44;              // set DIVFRAC of BRD = round(0.6805 * 64) = 44

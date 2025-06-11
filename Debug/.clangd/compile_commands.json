@@ -27,31 +27,21 @@
    {
       "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
       "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
-      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/Aufgabe 3.c"
-   },
-   {
-      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
-      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
-      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/aufgabe_3_Final_v2.c"
-   },
-   {
-      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
-      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
-      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/labor_aufgabe_4.c"
-   },
-   {
-      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
-      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
-      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/run_aufgabe_4.c"
-   },
-   {
-      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
-      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
       "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/tm4c1294ncpdt_startup_ccs.c"
    },
    {
       "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
       "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
       "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/debugging.c"
+   },
+   {
+      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
+      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
+      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/aufgabe_3.c"
+   },
+   {
+      "directory" : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/Debug",
+      "command"   : "clang++ -I\"C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win\" -I\"C:/ti/TivaWare_C_Series-2.2.0.295\" -I\"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include\" -Dccs=\"ccs\" -DPART_TM4C1294NCPDT -xc",
+      "file"      : "C:/Users/tozzi/OneDrive - HAW-HH/Module/MP Mikroprozessortechnik/Labor/MPP1/Labor 4/labor4/ccs-project-0-win/src/aufgabe_4.c"
    }
 ]

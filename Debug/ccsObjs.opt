@@ -4,10 +4,9 @@
 "./src/Aufgabe 1b.obj"
 "./src/Aufgabe 1c.obj"
 "./src/Aufgabe 3 Alternative.obj"
-"./src/Aufgabe 3.obj"
-"./src/aufgabe_3_Final_v2.obj"
-"./src/labor_aufgabe_4.obj"
-"./src/run_aufgabe_4.obj"
+"./src/aufgabe_3.obj"
+"./src/aufgabe_4.obj"
+"./src/debugging.obj"
 "../tm4c1294ncpdt.cmd"
 -llibc.a
 -l"C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ccs/Debug/driverlib.lib"

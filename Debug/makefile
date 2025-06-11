@@ -16,10 +16,9 @@ ORDERED_OBJS += \
 "./src/Aufgabe 1b.obj" \
 "./src/Aufgabe 1c.obj" \
 "./src/Aufgabe 3 Alternative.obj" \
-"./src/Aufgabe 3.obj" \
-"./src/aufgabe_3_Final_v2.obj" \
-"./src/labor_aufgabe_4.obj" \
-"./src/run_aufgabe_4.obj" \
+"./src/aufgabe_3.obj" \
+"./src/aufgabe_4.obj" \
+"./src/debugging.obj" \
 "../tm4c1294ncpdt.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -153,8 +152,8 @@ ccs-project-0-win.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "tm4c1294ncpdt_startup_ccs.obj" "src\Aufgabe 1a.obj" "src\Aufgabe 1b.obj" "src\Aufgabe 1c.obj" "src\Aufgabe 3 Alternative.obj" "src\Aufgabe 3.obj" "src\aufgabe_3_Final_v2.obj" "src\labor_aufgabe_4.obj" "src\run_aufgabe_4.obj" 
-	-$(RM) "main.d" "tm4c1294ncpdt_startup_ccs.d" "src\Aufgabe 1a.d" "src\Aufgabe 1b.d" "src\Aufgabe 1c.d" "src\Aufgabe 3 Alternative.d" "src\Aufgabe 3.d" "src\aufgabe_3_Final_v2.d" "src\labor_aufgabe_4.d" "src\run_aufgabe_4.d" 
+	-$(RM) "main.obj" "tm4c1294ncpdt_startup_ccs.obj" "src\Aufgabe 1a.obj" "src\Aufgabe 1b.obj" "src\Aufgabe 1c.obj" "src\Aufgabe 3 Alternative.obj" "src\aufgabe_3.obj" "src\aufgabe_4.obj" "src\debugging.obj" 
+	-$(RM) "main.d" "tm4c1294ncpdt_startup_ccs.d" "src\Aufgabe 1a.d" "src\Aufgabe 1b.d" "src\Aufgabe 1c.d" "src\Aufgabe 3 Alternative.d" "src\aufgabe_3.d" "src\aufgabe_4.d" "src\debugging.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

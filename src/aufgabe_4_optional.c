@@ -11,11 +11,6 @@
 #define MAXSIZE 50      // Puffergröße für UART-Eingabe
 // #define PORTM 0x00000800 // Nicht direkt als Makro verwendet, Bitmasken direkt genutzt
 
-#define IDLETIME 1000 // waiting time between transmissions
-#define SYSTEM_CLOCK                                                           \
-  16000000U // System clock in Hz (assumption: 16 MHz without PLL)
-
-// volatile static uint32_t wait_counter_1a = 0;
 // Fehlercodes für das Parsen von Befehlen
 #define ERROR_NONE 0
 #define ERROR_TOO_SHORT 1
@@ -28,30 +23,20 @@
 
 void config_port_aufgabe_4_optional(void) {
     // Clock für Port P (UART), Port N (LEDs D1, D2), Port F (LEDs D3, D4) und Port M (Simulation)
-    SYSCTL_RCGCGPIO_R |= (1U << 13); // Takt für Port P (UART6)
-        // Clock für Port P (UART), Port N (LEDs vom Tiva), Port F (echte LEDs) und Port M (Simulation)
-    // SYSCTL_RCGCGPIO_R |= 0x02000; // switch on clock for Port P
-    // SYSCTL_RCGCGPIO_R |= 0x00000800;   // switch on clock for Port M
-    
-    // // wait_counter_4++;
-    // while ((SYSCTL_PRGPIO_R & 0x02000) == 0) {
-    // }; // Wait until bit 13 of Port P is set. Bit-shift //  while((SYSCTL_PRGPIO_R
-    //  // & (1 << 13)) == 0) {};
-    
-    // SYSCTL_RCGCGPIO_R |= 0x2000; // |= (1 << 13); // Takt für Port P (UART) (entspricht 1 << 13)
-    // SYSCTL_RCGCGPIO_R |= 0x1000; // |= (1 << 12); // Takt für Port N (LEDs D1, D2) (entspricht 1 << 12)
-    // SYSCTL_RCGCGPIO_R |= 0x0020; // |= (1 << 5);  // Takt für Port F (LEDs D3, D4) (entspricht 1 << 5)
-    // SYSCTL_RCGCGPIO_R |= 0x0800; // |= (1 << 11); // TODO: Takt für Port M ANFxx (entspricht 1 << 11)
-
-    SYSCTL_RCGCGPIO_R |= (1U << 12); // Takt für Port N (LEDs D1, D2)
-    SYSCTL_RCGCGPIO_R |= (1U << 5);  // Takt für Port F (LEDs D3, D4)
-    SYSCTL_RCGCGPIO_R |= (1U << 11); // Takt für Port M (Simulation PM0-PM3)
+    // Port P (UART6) ist Bit 13 -> 0x2000
+    // Port N (LEDs D1, D2) ist Bit 12 -> 0x1000
+    // Port F (LEDs D3, D4) ist Bit 5 -> 0x0020
+    // Port M (Simulation PM0-PM3) ist Bit 11 -> 0x0800
+    SYSCTL_RCGCGPIO_R |= 0x2000; // Takt für Port P (UART6)
+    SYSCTL_RCGCGPIO_R |= 0x1000; // Takt für Port N (LEDs D1, D2)
+    SYSCTL_RCGCGPIO_R |= 0x0020; // Takt für Port F (LEDs D3, D4)
+    SYSCTL_RCGCGPIO_R |= 0x0800; // Takt für Port M (Simulation PM0-PM3)
 
     // Warte, bis die Taktversorgung für die GPIO-Ports stabil ist
-    while ((SYSCTL_PRGPIO_R & (1U << 13)) == 0) {}; // Warten auf Port P
-    while ((SYSCTL_PRGPIO_R & (1U << 12)) == 0) {}; // Warten auf Port N
-    while ((SYSCTL_PRGPIO_R & (1U << 5)) == 0)  {}; // Warten auf Port F
-    while ((SYSCTL_PRGPIO_R & (1U << 11)) == 0) {}; // Warten auf Port M
+    while ((SYSCTL_PRGPIO_R & 0x2000) == 0) {}; // Warten auf Port P
+    while ((SYSCTL_PRGPIO_R & 0x1000) == 0) {}; // Warten auf Port N
+    while ((SYSCTL_PRGPIO_R & 0x0020) == 0) {}; // Warten auf Port F
+    while ((SYSCTL_PRGPIO_R & 0x0800) == 0) {}; // Warten auf Port M
 
     // Port P für UART6 (Rx PP0 / Tx PP1) konfigurieren
     GPIO_PORTP_DEN_R |= 0x03;       // PP0 & PP1 digital aktivieren
@@ -75,16 +60,19 @@ void config_port_aufgabe_4_optional(void) {
 }
 
 void config_uart_aufgabe_4_optional(uint32_t baudrate, uint32_t lcrh_setting) {
-    SYSCTL_RCGCUART_R |= (1U << 6);      // Takt für UART6 (Bit 6) einschalten
-    while((SYSCTL_PRUART_R & (1U << 6)) == 0) {}; // Warten, bis UART6-Peripherie bereit ist
+    // UART6 ist Bit 6 -> 0x0040
+    SYSCTL_RCGCUART_R |= 0x0040;      // Takt für UART6 (Bit 6) einschalten
+    while((SYSCTL_PRUART_R & 0x0040) == 0) {}; // Warten, bis UART6-Peripherie bereit ist
     
     UART6_CTL_R &= ~UART_CTL_UARTEN; // UART6 für Konfiguration deaktivieren (UART_CTL_UARTEN ist 0x1)
 
-  // Baudrate konfigurieren
-  UART6_IBRD_R = SYSTEM_CLOCK /
-                 (16 * baudrate); // set DIVINT of BRD floor(16 MHz/16*9600 bps)
-  UART6_FBRD_R = (SYSTEM_CLOCK / (16 * baudrate)) *
-                 64; // set DIVFRAC of BRD remaining fraction divider
+    // Baudrate bewegt in Task-Switcher
+    // Für 16MHz Systemtakt und 115200 Baud:
+    // BRD = 16.000.000 / (16 * 115200) = 8.68055...
+    // IBRD = 8
+    // FBRD = Integer((0.68055...) * 64 + 0.5) = Integer(43.555... + 0.5) = Integer(44.055...) = 44
+    UART6_IBRD_R = 8;
+    UART6_FBRD_R = 44;
     
     UART6_LCRH_R = lcrh_setting; // LCRH-Parameter verwenden (z.B. 0x60 für 8N1)
     
@@ -257,7 +245,6 @@ void execute_aufgabe_4_optional(char zeichen_param, uint32_t baudrate, uint32_t 
             // --- DEBUG AUSGABEN HINZUGEFÜGT ---
             printf("DEBUG: parse_and_execute_led_command_optional returned: %d\n", parse_error_code);
             // --- ENDE DEBUG AUSGABEN ---
-
 
             // Anforderung 5 & Optionale Erweiterung: Ausgabe mit printf() und Errorcode
             printf("Befehl verarbeitet: \"%s\", Errorcode: %d\n", buffer, parse_error_code);

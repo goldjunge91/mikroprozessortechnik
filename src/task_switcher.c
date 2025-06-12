@@ -106,7 +106,7 @@ void task_switcher_check_and_run(void) {
         }
     }
 
-    // Holen der aktuellen Task-ID aus unserer Sequenz
+    // Holen der aktuellen Task-ID
     current_task_id = task_sequence[current_task_index];
 
     // Wenn die Aufgabe gewechselt wurde, rufe die passende init-Funktion auf

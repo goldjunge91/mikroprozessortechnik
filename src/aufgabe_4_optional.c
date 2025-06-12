@@ -83,40 +83,6 @@ void send_char4_optional(char zeichen_zum_senden) {
     UART6_DR_R = zeichen_zum_senden; // Zeichen in das Datenregister schreiben
 }
 
-/*
-// --- Alte Main-Funktion für Aufgabe 4 (auskommentiert, da execute_aufgabe_4_optional verwendet wird) ---
-void aufgabe_4_optional_alte_version(uint32_t baudrate) { // Umbenannt, um Konflikte zu vermeiden
-    char empfange_zeichen;
-    char buffer[MAXSIZE];
-    volatile int i; // volatile hier nicht unbedingt nötig, da i aktiv genutzt wird
-    config_port_aufgabe_4_optional(); // Name angepasst
-    config_uart_aufgabe_4_optional(baudrate, 0x00000060); // Name angepasst
-
-    // Initialzustand: Alle LEDs einschalten (Beispielhaft)
-    GPIO_PORTM_DATA_R |= 0x0F;
-    GPIO_PORTN_DATA_R |= 0x03;
-    GPIO_PORTF_AHB_DATA_R |= 0x11;
-
-    while (1) {
-        send_char4_optional('\r');
-        send_char4_optional('\n');
-        send_char4_optional('>');
-
-        i = 0;
-        while (i < MAXSIZE - 1) {
-            while ((UART6_FR_R & UART_FR_RXFE) != 0); // Warten auf Zeichen (RXFE = 0x10)
-            empfange_zeichen = UART6_DR_R;
-            if (empfange_zeichen == '\r' || empfange_zeichen == 0x04)
-                break;
-            buffer[i++] = empfange_zeichen;
-        }
-        buffer[i] = '\0';
-        printf("Befehl empfangen (alte Funktion): %s\n", buffer); // Angepasste Ausgabe
-        // Alte Parsing-Logik hier... (nicht mehr relevant für die optionale Aufgabe)
-    }
-}
-*/
-
 // Hilfsfunktion zum Entfernen von Leerzeichen aus einem String (in-place)
 void remove_spaces(char* str) {
     if (str == NULL) return;
@@ -207,36 +173,64 @@ void execute_aufgabe_4_optional(char zeichen_param, uint32_t baudrate, uint32_t 
         last_baudrate = baudrate;
         last_lcrh = lcrh_setting;
         
-        // Sende initialen Prompt nur einmal oder nach Neukonfiguration
         if (!is_initialized) {
             send_char4_optional('\r');
             send_char4_optional('\n');
             send_char4_optional('>');
             is_initialized = 1;
+            printf("execute_aufgabe_4_optional: Initialized and prompt sent.\n"); // DEBUG
         }
     }
 
-    // Prüfen, ob ein Zeichen im Empfangspuffer ist (UART_FR_RXFE ist 0x10)
     if ((UART6_FR_R & UART_FR_RXFE) == 0) {
         received_char = UART6_DR_R;
+        // printf("Char received: 0x%02X\n", received_char); // SEHR GESPRÄCHIGES DEBUGGING
 
         if (received_char == '\r' || received_char == 0x04) { // Enter oder EOT (Ctrl-D)
-            buffer[buffer_index] = '\0'; // String terminieren
+            buffer[buffer_index] = '\0'; 
             
-            send_char4_optional('\r'); // Echo der Eingabezeile beenden
+            send_char4_optional('\r'); 
             send_char4_optional('\n');
 
+            // --- DEBUG AUSGABEN HINZUGEFÜGT ---
+            send_char4_optional('D');
+            send_char4_optional('E');
+            send_char4_optional('B');
+            send_char4_optional('U');
+            send_char4_optional('G');
+            send_char4_optional(':');
+            send_char4_optional(' ');
+            send_char4_optional('E');
+            send_char4_optional('n');
+            send_char4_optional('t');
+            send_char4_optional('e');
+            send_char4_optional('r');
+            send_char4_optional(' ');
+            send_char4_optional('p');
+            send_char4_optional('r');
+            send_char4_optional('e');
+            send_char4_optional('s');
+            send_char4_optional('s');
+            send_char4_optional('e');
+            send_char4_optional('d');
+            send_char4_optional('.');
+            send_char4_optional('\n');
+            
+            // printf("DEBUG: Enter pressed. Buffer content before parse: \"%s\"\n", buffer);
+            // --- ENDE DEBUG AUSGABEN ---
+
             int parse_error_code = parse_and_execute_led_command_optional(buffer);
+            
+            // --- DEBUG AUSGABEN HINZUGEFÜGT ---
+            printf("DEBUG: parse_and_execute_led_command_optional returned: %d\n", parse_error_code);
+            // --- ENDE DEBUG AUSGABEN ---
+
 
             // Anforderung 5 & Optionale Erweiterung: Ausgabe mit printf() und Errorcode
-            // Wichtig: Der Puffer 'buffer' wurde von remove_spaces() modifiziert!
-            // Wenn Sie den *originalen* String mit Leerzeichen ausgeben wollen,
-            // müssten Sie ihn vor dem Aufruf von remove_spaces kopieren.
-            // Hier wird der Puffer *nach* remove_spaces ausgegeben.
             printf("Befehl verarbeitet: \"%s\", Errorcode: %d\n", buffer, parse_error_code);
 
-            buffer_index = 0; // Buffer für nächste Eingabe zurücksetzen
-            send_char4_optional('>'); // Neuen Prompt senden
+            buffer_index = 0; 
+            send_char4_optional('>'); 
         } else if (received_char == 0x08 || received_char == 0x7F) { // Backspace (0x08) oder DEL (0x7F)
             if (buffer_index > 0) {
                 buffer_index--;

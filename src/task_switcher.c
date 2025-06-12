@@ -56,12 +56,15 @@ void run_task_init(TaskID task) {
     init_aufgabe_1c();
     break;
   case TASK_3:
+    printf("Führe Aufgabe 3 aus... 0, 9600, LCRH 0x60 für 8N1\n");
     init_aufgabe_3();
     break;
   case TASK_4:
+    printf("Führe Aufgabe 4 aus...\n");
     init_aufgabe_4();
     break;
   case TASK_4_OPT:
+    printf("Führe Aufgabe 4_optional aus. 0, 115200, 0x60..\n");
     init_aufgabe_4_optional();
     break;
   case TASK_DEBUG:
@@ -86,18 +89,15 @@ void run_task_execute(TaskID task) {
     break;
   case TASK_3:
     // LCRH 0x60 für 8N1
-    printf("Führe Aufgabe 3 aus... 0, 9600, LCRH 0x60 für 8N1\n");
     execute_aufgabe_3(0, 9600, 0x60);
     break;
   case TASK_4:
     // LCRH 0x60 für 8N1
-    printf("Führe Aufgabe 4 aus...\n");
     execute_aufgabe_4(0, 115200, 0x60);
     break;
   case TASK_4_OPT:
     // LCRH 0x60 für 8N1
-    printf("Führe Aufgabe 4_optional aus. 0, 115200, 0x60..\n");
-    execute_aufgabe_4(0, 115200, 0x60);
+    execute_aufgabe_4_optional(0, 115200, 0x60);
     break;
   // case TASK_DEBUG:
   //     execute_debugging(0, 115200, 0x60);

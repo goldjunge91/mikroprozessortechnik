@@ -1,12 +1,20 @@
 // =======================================================================
 // ===                 TEMPORÄRER CODE ZUM TESTEN                      ===
 // =======================================================================
-#include "aufgaben.h"
-#include "inc/tm4c1294ncpdt.h" 			// Header of the controller type
-#include <stdint.h> 				// Header w. types for the register ..
 
+#include "aufgaben.h"
+// #include "inc/tm4c1294ncpdt.h"
+#include "tm4c1294ncpdt.h" // copy of the tm4c1294ncpdt.h file from the TivaWare library
+#include <stdint.h>
+
+#define IDLETIME 1000
 #define BPS 115200
-static int wait_counter_debug = 0;
+#define IDLETIME 1000 // Waiting time between transmissions
+#define MAXSIZE 20 // Max size of Array (Requirement ANF4: 10-50), I chose 20.
+#define SYSTEM_CLOCK                                                           \
+  16000000U // System clock in Hz (I'm assuming 16 MHz without PLL)
+
+volatile static int wait_counter_debug = 0;
 
 void config_port_debugging(void) {
     // Clock für Port P (UART), Port N (echte LEDs), Port F (echte LEDs) und Port M (Simulation)
@@ -39,14 +47,23 @@ void config_port_debugging(void) {
     GPIO_PORTM_DIR_R |= 0x0F;       // PM0-PM3 als Ausgänge
 }
 
-void config_uart_debugging(void) {
+void config_uart_debugging(uint32_t baudrate, uint32_t lcrh_setting) {
     SYSCTL_RCGCUART_R |= 0x40;      // switch on clock for UART6
     wait_counter_debug++; 
     UART6_CTL_R &= ~0x01;           // disable UART6 for config
-    UART6_IBRD_R = 8;               // set DIVINT of BRD floor(16 MHz / (16 * 115200 bps)) = 8
-    UART6_FBRD_R = 44;              // set DIVFRAC of BRD = round(0.6805 * 64) = 44
-    UART6_LCRH_R = 0x00000060;      // serial format 8N1
+    // UART6_IBRD_R = 8;               // set DIVINT of BRD floor(16 MHz / (16 * 115200 bps)) = 8
+    // UART6_FBRD_R = 44;              // set DIVFRAC of BRD = round(0.6805 * 64) = 44
+    UART6_IBRD_R = SYSTEM_CLOCK/(16*baudrate); 		// set DIVINT of BRD floor(16 MHz/16*baudrate)
+    UART6_FBRD_R = (SYSTEM_CLOCK/(16*baudrate))%64; 	// set DIVFRAC of BRD remaining fraction divider    
+    // UART6_LCRH_R = 0x00000060;      // serial format 8N1
+    UART6_LCRH_R = lcrh_setting; // Parameter wird verwendet 
     UART6_CTL_R |= 0x0301;          // UART transmit/receive on and UART enable
+}
+
+
+void idle_debug() {                           // simple wait for idle_3_alt state
+    int i;
+    for (i=IDLETIME;i>0;i--);           // count down loop for waiting
 }
 
 void debugging(){
@@ -63,16 +80,14 @@ void debugging(){
     // Schritt 2: UART6 wie in Aufgabe 4 konfigurieren
     // ----------------------------------------------------------------------------
     config_port_debugging(); // Konfiguriert Port P für UART
-    config_uart_debugging(); // Konfiguriert UART6 selbst
+    config_uart_debugging(115200, 0x60);
 
-
-    // Schritt 3: Endlosschleife, die auf "Geister-Daten" wartet
+    // Schritt 3 Loop für Verkabelungstest
+    // Diese Schleife wartet auf Daten, die von via UART empfangen werden auf Pin PP0 (Rx) ankommen.
     // ----------------------------------------------------------------------------
     while(1)
     {
-        // Diese innere Schleife wartet, solange der Empfangspuffer (FIFO) leer ist.
-        // Das Flag 0x10 (RXFE) im Flag-Register (FR) ist 1, wenn der Puffer leer ist.
-        // Das Programm sollte hier "hängen" bleiben, solange nichts empfangen wird.
+        // Diese innere Schleife wartet, solange der Empfangspuffer (FIFO) leer ist. lag 0x10 (RXFE) im Flag-Register (FR) ist 1
         while((UART6_FR_R & 0x10) != 0)
         {
             // Bleibe hier, solange kein Zeichen ankommt.
@@ -82,10 +97,31 @@ void debugging(){
         // Es wurde ein Zeichen "empfangen", obwohl nichts angeschlossen ist.
         // Lese das "Geister-Zeichen" aus dem Datenregister, um den Fehler-Zustand
         // für den nächsten Schleifendurchlauf zurückzusetzen.
-        volatile char temp = UART6_DR_R;
-
+        volatile char temp = UART6_DR_R; // Das volatile-Schlüsselwort verhindert, dass der Compiler Warteschleifen wegoptimiert
         // Schalte die LED D1 um (an/aus). Led indikator,
         // dass der Test fehlgeschlagen ist.
         GPIO_PORTN_DATA_R ^= 0x02;
     }
+}
+
+void init_debugging(void) {
+    config_port_debugging();
+}
+
+// KORRIGIERT: Funktionssignatur an aufgaben.h angepasst und Logik ergänzt
+void execute_debugging(char zeichen, uint32_t baudrate, uint32_t lcrh_setting) {
+    static uint32_t last_baudrate = 0;
+    static uint32_t last_lcrh = 0;
+
+    // UART nur bei Änderung der Parameter neu konfigurieren
+    if (baudrate != last_baudrate || lcrh_setting != last_lcrh) {
+        config_uart_debugging(baudrate, lcrh_setting);
+        last_baudrate = baudrate;
+        last_lcrh = lcrh_setting;
+    }
+
+    // Ein Zeichen senden
+    while((UART6_FR_R & 0x20) != 0);
+    UART6_DR_R = zeichen;
+    idle_debug();
 }

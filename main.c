@@ -59,7 +59,7 @@ void main(void) {
     //     case 30:
     //         printf("Führe Aufgabe 3 aus...\n");
     //         // run_aufgabe_3();
-    //         run_aufgabe_3_alt();
+    //         run_aufgabe_3();
     //         break;
 
     //     case 40:

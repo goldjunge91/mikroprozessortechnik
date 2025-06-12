@@ -11,26 +11,18 @@
 #define IDLETIME 1000
 #define MAXSIZE 10
 #define PORTM 0x00000800
-// int wait_counter_4 = 0;
+
 volatile int wait_counter_4 = 0; // 'volatile' verhindert, dass der Compiler die Warteschleife optimiert.
-// void config_port_aufgabe_4(void) {
-//     // Clock für Port P (UART) und Port M (LEDs)
-//     SYSCTL_RCGCGPIO_R |= 0x02000;   // switch on clock for Port P
-//     SYSCTL_RCGCGPIO_R |= 0x00000800;   // switch on clock for Port M
-//     wait_counter_4++;
-//     // Port P für UART6 (Rx/Tx) konfigurieren
-//     GPIO_PORTP_DEN_R |= 0x03;       // enable digital pin function for PP1 & PP0
-//     GPIO_PORTP_DIR_R |= 0x02;       // set PP1 to output
-//     GPIO_PORTP_DIR_R &= ~0x01;      // set PP0 to input
-//     GPIO_PORTP_AFSEL_R |= 0x03;     // switch to alternate pin function PP1 & PP0
-//     GPIO_PORTP_PCTL_R = (GPIO_PORTP_PCTL_R & 0xFFFFFF00) | 0x00000011; // PCTL für U6Rx/U6Tx
-// }
+
 void config_port_aufgabe_4(void) {
     // Clock für Port P (UART), Port N (LEDs vom Tiva), Port F (echte LEDs) und Port M (Simulation)
     SYSCTL_RCGCGPIO_R |= 0x02000; // switch on clock for Port P
     SYSCTL_RCGCGPIO_R |= 0x00000800;   // switch on clock for Port M
     
-    wait_counter_4++;
+    // wait_counter_4++;
+    while ((SYSCTL_PRGPIO_R & 0x02000) == 0) {
+    }; // Wait until bit 13 of Port P is set. Bit-shift //  while((SYSCTL_PRGPIO_R
+     // & (1 << 13)) == 0) {};
     
     SYSCTL_RCGCGPIO_R |= 0x2000; // |= (1 << 13); // Takt für Port P (UART) (entspricht 1 << 13)
     SYSCTL_RCGCGPIO_R |= 0x1000; // |= (1 << 12); // Takt für Port N (LEDs D1, D2) (entspricht 1 << 12)
@@ -39,7 +31,7 @@ void config_port_aufgabe_4(void) {
 
     // Warte auf Taktversorgung für die GPIO-Ports stabil ist,
     // bevor auf deren Register zugegriffen wird.
-    while((SYSCTL_PRGPIO_R & 0x1000) == 0) {}; // Korrekte Prüfung: Warte, bis Bit 12 von Port N gesetzt ist. Bit-shift //  while((SYSCTL_PRGPIO_R & (1 << 12)) == 0) {};
+    while((SYSCTL_PRGPIO_R & 0x1000) == 0) {}; // Warte, bis Bit 12 von Port N gesetzt ist. Bit-shift //  while((SYSCTL_PRGPIO_R & (1 << 12)) == 0) {};
     while((SYSCTL_PRGPIO_R & 0x0020) == 0) {};  // Warte auf Port F (LEDs D3, D4) (entspricht 1 << 5)
 
 
@@ -89,7 +81,7 @@ void send_char4(char zeichen_zum_senden) {
 void aufgabe_4(uint32_t baudrate) {
     char empfange_zeichen;
     char buffer[MAXSIZE];
-    int i;
+    volatile int i;
     config_port_aufgabe_4();
     config_uart_aufgabe_4(baudrate, 0x00000060); // Provide baudrate and LCRH setting
     // Initialzustand: Alle LEDs einschalten

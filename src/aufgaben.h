@@ -9,8 +9,8 @@ void run_aufgabe_1a(char zeichen, uint32_t baudrate);
 void run_aufgabe_1b(char zeichen, uint32_t baudrate);
 void run_aufgabe_1c(char zeichen, uint32_t baudrate);
 
-void run_aufgabe_3_alt(void);
-void aufgabe_4(void);
+void run_aufgabe_3(char zeichen, uint32_t baudrate);
+void aufgabe_4(uint32_t baudrate);
 void testing_uart(void);
 // ############# wird nicht benötigt aber behalten bis alles funktioniert.
 
@@ -26,8 +26,8 @@ void init_aufgabe_1c(void);
 void execute_aufgabe_1c(char zeichen, uint32_t baudrate);
 
 // Aufgabe 3
-void init_aufgabe_3_alt(void);
-void execute_aufgabe_3_alt(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);
+void init_aufgabe_3(void);
+void execute_aufgabe_3(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);
 
 // Aufgabe 4
 void init_aufgabe_4(void);

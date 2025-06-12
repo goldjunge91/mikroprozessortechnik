@@ -11,6 +11,11 @@
 #define MAXSIZE 50      // Puffergröße für UART-Eingabe
 // #define PORTM 0x00000800 // Nicht direkt als Makro verwendet, Bitmasken direkt genutzt
 
+#define IDLETIME 1000 // waiting time between transmissions
+#define SYSTEM_CLOCK                                                           \
+  16000000U // System clock in Hz (assumption: 16 MHz without PLL)
+
+// volatile static uint32_t wait_counter_1a = 0;
 // Fehlercodes für das Parsen von Befehlen
 #define ERROR_NONE 0
 #define ERROR_TOO_SHORT 1
@@ -20,11 +25,24 @@
 #define ERROR_TOO_LONG 5
 #define ERROR_EMPTY_INPUT 6 // Neuer Fehlercode für leere Eingabe nach remove_spaces
 
-// volatile int wait_counter_4 = 0; // Nicht mehr benötigt und entfernt
 
 void config_port_aufgabe_4_optional(void) {
     // Clock für Port P (UART), Port N (LEDs D1, D2), Port F (LEDs D3, D4) und Port M (Simulation)
     SYSCTL_RCGCGPIO_R |= (1U << 13); // Takt für Port P (UART6)
+        // Clock für Port P (UART), Port N (LEDs vom Tiva), Port F (echte LEDs) und Port M (Simulation)
+    // SYSCTL_RCGCGPIO_R |= 0x02000; // switch on clock for Port P
+    // SYSCTL_RCGCGPIO_R |= 0x00000800;   // switch on clock for Port M
+    
+    // // wait_counter_4++;
+    // while ((SYSCTL_PRGPIO_R & 0x02000) == 0) {
+    // }; // Wait until bit 13 of Port P is set. Bit-shift //  while((SYSCTL_PRGPIO_R
+    //  // & (1 << 13)) == 0) {};
+    
+    // SYSCTL_RCGCGPIO_R |= 0x2000; // |= (1 << 13); // Takt für Port P (UART) (entspricht 1 << 13)
+    // SYSCTL_RCGCGPIO_R |= 0x1000; // |= (1 << 12); // Takt für Port N (LEDs D1, D2) (entspricht 1 << 12)
+    // SYSCTL_RCGCGPIO_R |= 0x0020; // |= (1 << 5);  // Takt für Port F (LEDs D3, D4) (entspricht 1 << 5)
+    // SYSCTL_RCGCGPIO_R |= 0x0800; // |= (1 << 11); // TODO: Takt für Port M ANFxx (entspricht 1 << 11)
+
     SYSCTL_RCGCGPIO_R |= (1U << 12); // Takt für Port N (LEDs D1, D2)
     SYSCTL_RCGCGPIO_R |= (1U << 5);  // Takt für Port F (LEDs D3, D4)
     SYSCTL_RCGCGPIO_R |= (1U << 11); // Takt für Port M (Simulation PM0-PM3)
@@ -62,13 +80,11 @@ void config_uart_aufgabe_4_optional(uint32_t baudrate, uint32_t lcrh_setting) {
     
     UART6_CTL_R &= ~UART_CTL_UARTEN; // UART6 für Konfiguration deaktivieren (UART_CTL_UARTEN ist 0x1)
 
-    // Baudrate fest auf 115200 bps eingestellt (entsprechend Task-Switcher Aufruf für Aufgabe 4)
-    // Für 16MHz Systemtakt und 115200 Baud:
-    // BRD = 16.000.000 / (16 * 115200) = 8.68055...
-    // IBRD = 8
-    // FBRD = Integer((0.68055...) * 64 + 0.5) = Integer(43.555... + 0.5) = Integer(44.055...) = 44
-    UART6_IBRD_R = 8;
-    UART6_FBRD_R = 44;
+  // Baudrate konfigurieren
+  UART6_IBRD_R = SYSTEM_CLOCK /
+                 (16 * baudrate); // set DIVINT of BRD floor(16 MHz/16*9600 bps)
+  UART6_FBRD_R = (SYSTEM_CLOCK / (16 * baudrate)) *
+                 64; // set DIVFRAC of BRD remaining fraction divider
     
     UART6_LCRH_R = lcrh_setting; // LCRH-Parameter verwenden (z.B. 0x60 für 8N1)
     
@@ -272,10 +288,6 @@ void execute_aufgabe_4_optional(char zeichen_param, uint32_t baudrate, uint32_t 
 
 // init_aufgabe_4_optional - wird vom Task-Switcher einmalig aufgerufen
 void init_aufgabe_4_optional(void) {
-    // Die Port-Konfiguration wird jetzt in execute_aufgabe_4_optional beim ersten Mal
-    // oder bei Parameteränderung aufgerufen, um sicherzustellen, dass sie aktuell ist.
-    // Wenn eine einmalige Initialisierung hier gewünscht ist, die nicht von Baudrate etc. abhängt:
-    // config_port_aufgabe_4_optional();
     // Initialzustand der LEDs setzen, falls gewünscht:
     // GPIO_PORTM_DATA_R = 0x00; // Alle Simulations-LEDs aus
     // GPIO_PORTN_DATA_R = 0x00; // Alle echten LEDs D1/D2 aus

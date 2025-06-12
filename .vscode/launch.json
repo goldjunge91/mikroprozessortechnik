@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Cortex-Debug (Tiva C)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "openocd",
+      "cwd": "${workspaceFolder}",
+      "executable": "./build/mikroprozessortechnik",
+      "device": "TM4C1294NCPDT",
+      "svdFile": "/Volumes/Programme/Programme/ti/TivaWare_C_Series-2.2.0.295/inc/tm4c1294ncpdt.svd",
+      "configFiles": [
+        "interface/ti-icdi.cfg",
+        "target/ti_tiva_tm4c129.cfg"
+      ],
+      "runToEntryPoint": "Reset_Handler"
+    }
+  ]
+}

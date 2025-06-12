@@ -1,0 +1,4 @@
+{
+    "cmake.configurePreset": "ti-compiler-debug",
+    "cmake.buildPreset": "ti-compiler-debug"
+}

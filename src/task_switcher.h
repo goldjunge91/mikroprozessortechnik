@@ -8,6 +8,7 @@ typedef enum {
     TASK_1C,
     TASK_3,
     TASK_4,
+    TASK_4_OPT,
     TASK_DEBUG,
     NUM_TASKS // Hält die Gesamtzahl der Aufgaben
 } TaskID;

@@ -33,6 +33,11 @@ void execute_aufgabe_3(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);
 void init_aufgabe_4(void);
 void execute_aufgabe_4(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);
 
+// Aufgabe 4
+void aufgabe_4(uint32_t baudrate);
+void init_aufgabe_4_optional(void);
+void execute_aufgabe_4_optional(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);
+
 // Debugging
 void init_debugging(void);
 void execute_debugging(char zeichen, uint32_t baudrate, uint32_t lcrh_setting);

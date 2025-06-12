@@ -6,7 +6,7 @@
 
 // --- Globale Zustandsvariablen für den Task-Wechsel ---
 static const TaskID task_sequence[NUM_TASKS] = {
-    TASK_1A, TASK_1B, TASK_1C, TASK_3, TASK_4, TASK_DEBUG};
+    TASK_1A, TASK_1B, TASK_1C, TASK_3, TASK_4, TASK_4_OPT, TASK_DEBUG};
 static int current_task_index = 0;
 static TaskID current_task_id;
 static uint8_t task_changed = 1; // Flag, um zu signalisieren, dass eine neue
@@ -61,6 +61,9 @@ void run_task_init(TaskID task) {
   case TASK_4:
     init_aufgabe_4();
     break;
+  case TASK_4_OPT:
+    init_aufgabe_4_optional();
+    break;
   case TASK_DEBUG:
     init_debugging();
     break;
@@ -89,6 +92,11 @@ void run_task_execute(TaskID task) {
   case TASK_4:
     // LCRH 0x60 für 8N1
     printf("Führe Aufgabe 4 aus...\n");
+    execute_aufgabe_4(0, 115200, 0x60);
+    break;
+  case TASK_4_OPT:
+    // LCRH 0x60 für 8N1
+    printf("Führe Aufgabe 4_optional aus. 0, 115200, 0x60..\n");
     execute_aufgabe_4(0, 115200, 0x60);
     break;
   // case TASK_DEBUG:

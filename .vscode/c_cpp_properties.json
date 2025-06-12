@@ -2,33 +2,13 @@
     "configurations": [
         {
             "name": "Win32",
+            "intelliSenseMode": "clang-x64",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceRoot}",
+                "/Volumes/Programme/Programme/ti/TivaWare_C_Series-2.2.0.295"
             ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
-        },
-        {
-            "name": "cc",
-            "includePath": [
-                "${workspaceFolder}/**"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "cStandard": "c11",
+            "cppStandard": "c++14"
         }
     ],
     "version": 4

@@ -1,0 +1,22 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "ti-compiler-debug",
+      "displayName": "TI Compiler (Debug)",
+      "description": "Baut das Projekt mit dem TI ARM Compiler für das Debugging.",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "/Volumes/Programme/git_mac/mikroprozessortechnik/ti-arm-toolchain.cmake"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ti-compiler-debug",
+      "configurePreset": "ti-compiler-debug"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Tiva TM4C1294NCPDT.ccxml",
+            "type": "ccs-debug",
+            "request": "launch",
+            "targetConfig": "/Volumes/Programme/git_mac/mikroprozessortechnik/targetConfigs/Tiva TM4C1294NCPDT.ccxml"
+        },
+        {
+            "name": "ccs-project-0-win",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "ccs-project-0-win",
+                "resourceId": "/ccs-project-0-win"
+            }
+        }
+    ]
+}

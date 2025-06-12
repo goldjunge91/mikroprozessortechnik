@@ -3,3 +3,43 @@ Debug/*
 .cache
 .clangd
 **/Debug/*
+build/*
+CMakeFiles/cmake.check_cache
+/CMakeFiles
+/build
+Debug/ccs-project-0-win_linkInfo.xml
+Debug/ccs-project-0-win.map
+Debug/ccsObjs.opt
+Debug/makefile
+Debug/objects.mk
+Debug/subdir_rules.mk
+Debug/subdir_vars.mk
+Debug/.clangd/compile_commands.json
+Debug/.clangd/.cache/clangd/index/_limits.h.1CD84D4246A7D389.idx
+Debug/.clangd/.cache/clangd/index/_stdint.h.804111B3B8724946.idx
+Debug/.clangd/.cache/clangd/index/_stdint.h.A6ED26414C981577.idx
+Debug/.clangd/.cache/clangd/index/_stdint40.h.295D39279B7345DD.idx
+Debug/.clangd/.cache/clangd/index/_ti_config.h.48005C5FB99E5BC8.idx
+Debug/.clangd/.cache/clangd/index/_types.h.393BC790B5D9F1F8.idx
+Debug/.clangd/.cache/clangd/index/_types.h.2192262CEA4EC84C.idx
+Debug/.clangd/.cache/clangd/index/Aufgabe 1a.c.0362183357A6235C.idx
+Debug/.clangd/.cache/clangd/index/Aufgabe 1b.c.B79A136D5B766ED1.idx
+Debug/.clangd/.cache/clangd/index/Aufgabe 1c.c.95BEE1595E3B6EDB.idx
+Debug/.clangd/.cache/clangd/index/Aufgabe 3 Alternative.c.1560AE56BE0727C8.idx
+Debug/.clangd/.cache/clangd/index/Aufgabe 3.c.8E2ED92F06A37039.idx
+Debug/.clangd/.cache/clangd/index/aufgabe_3_Final_v2.c.1C397FED1696652A.idx
+Debug/.clangd/.cache/clangd/index/aufgaben.h.C8758473D86BA5DA.idx
+Debug/.clangd/.cache/clangd/index/cdefs.h.D5C204DCD54C5736.idx
+Debug/.clangd/.cache/clangd/index/debugging.c.9D17A9EB011F5ACA.idx
+Debug/.clangd/.cache/clangd/index/labor_aufgabe_4.c.4B86447A0CC8BCF6.idx
+Debug/.clangd/.cache/clangd/index/linkage.h.60C9CF3F8DA79963.idx
+Debug/.clangd/.cache/clangd/index/main.c.18EF10C2ADF0CABE.idx
+Debug/.clangd/.cache/clangd/index/run_aufgabe_4.c.567926693B69C904.idx
+Debug/.clangd/.cache/clangd/index/stdarg.h.CFE1792ABA62315D.idx
+Debug/.clangd/.cache/clangd/index/stdint.h.1B62CBDCC85BDFB1.idx
+Debug/.clangd/.cache/clangd/index/stdint.h.B7D84EB6C96D42C9.idx
+Debug/.clangd/.cache/clangd/index/stdio.h.C1AB9A8852121EF5.idx
+Debug/.clangd/.cache/clangd/index/tm4c1294ncpdt_startup_ccs.c.48A16FEC6CFBD391.idx
+Debug/.clangd/.cache/clangd/index/tm4c1294ncpdt.h.E0DDEE8D2D6E44BA.idx
+Debug/src/subdir_rules.mk
+Debug/src/subdir_vars.mk
